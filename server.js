@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express');            
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
@@ -12,10 +12,10 @@ app.use(bodyParser.json());
 // Set up port for server to listen on
 var port = process.env.PORT || 3000;
 
-// Connect to DB
+// #1) Connect to DB Server: ( in cmd prompt type: mongod to start MongoDB server - listening on Port 27017 )
 mongoose.connect('mongodb://localhost:27017/codealong');
 
-// API Routes
+// API Routes - using express for routing
 var router = express.Router();
 
 // Routes will all be prefixed with /api
@@ -31,7 +31,7 @@ router.use(function(req, res, next) {
   next();
 });
 
-// Test Route
+// Test Route - GET - test route in POSTMAN once #1) mongod and #2) nodemon server.js (npm install -g nodemon || allows hot reloading upon file save/changes -- **run in NodeJS CMD prompt**)
 router.get('/', function(req, res) {
   res.json({message: 'Welcome to our API!'});
 });
@@ -45,9 +45,9 @@ router.route('/vehicles')
 
     vehicle.save(function(err) {
       if (err) {
-        res.send(err);
+        res.send(err); // ** if there's an error, exit & throw error message - same with all other routes**
       }
-      res.json({message: 'Vehicle was successfully manufactured'});
+      res.json({message: 'Vehicle was successfully manufactured'}); // **ELSE, show success message - same with all other routes**
     });
   })
 
@@ -92,5 +92,5 @@ router.route('/vehicle/color/:color')
 
 // Fire up server
 app.listen(port);
-// Print friendly message to console
-console.log('Server listening on port ' + port);
+// Print friendly message to console --- ** this will display in the NodeJS cmd prompt once running: cmd = nodemon server.js **
+console.log('Server listening on port ' + port); 
